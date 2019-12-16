@@ -14,9 +14,9 @@
 
 - 참조하는 객체가 null 이 아님을 명시적으로 체크 `if (s ≠ null)`
 
-- (추천) safe expression(safe call) ->  `?.`
+- (추천) **safe expression**(safe call) ->  `?.`
 
-  receiver가 null이 아닌지를 검사, null아닐경우 필요한 멤버를 호출하고 결과 전달
+  receiver가 null이 아닌지를 검사, null이 아닐경우 필요한 멤버를 호출하고 결과 전달
 
   receiver가 null일 경우, 결과는 null이 됨
   
@@ -40,7 +40,7 @@ We have it in the language, especially for other use cases where the Kotlin comp
 
 표현식이 null이 아니라 가정하지만 코틀린 컴파일러가 이를 추론할 수 없는 경우에 사용하세요.(늦게 초기화 되지만 무조건 null이 아닌 경우가 있을 수도 ..)
 
-![week3](/Users/yein/Desktop/Kotlin-for-Java-Developers/screenshot/week3.png)
+![week3](./screenshot/week3.png)
 
 `?:`의 연산자 우선순위가 + 보다 낮음, 혼동되지 않도록 꼭 괄호를 사용할 것
 
@@ -58,7 +58,7 @@ Optional type is a wrapper that stores the reference to the initial object.
 
 각각의 optional value에 대해 **추가적인 객체가 생성**됨
 
-하지만  **nullable 타입은 어떠한 wrappers로 만들지않고, annotaions에 의해 구현**됨
+하지만  **nullable 타입은 어떠한 wrapper로 만들지않고, annotaions에 의해 구현**됨
 
 -> 즉 성능에 오버헤드가 없음
 
@@ -77,7 +77,7 @@ public static final String foo() { return "foo"; }
 public static final String bar() { return "bar"; }
 ```
 
-런타임시 둘은 annotaion만 다른 동일한 java String임,  no wrap 
+런타임시 둘은 annotation만 다른 동일한 java String임,  no wrap 
 
 모든 체크는 어노테이션의 도움을 받아 컴파일 타임에 이루어짐
 
@@ -120,6 +120,22 @@ if (any is String) { // type cast를 safe cast로 대체할 수 있음
 
 
 
+### Importance of nullability
+
+Q. 왜 nullability가 그렇게 중요한가요?
+
+A. 타입 시스템에서의 nullability는 코틀린의 주요 피쳐 중 하나
+
+많은 null들이 주위에 있기 때문에 중요함 -> "billion dollar mistake"
+
+null을 다루는 것을 쉽게 만들어줌 
+
+null을 사용해 부재를 표현하는 것은 불법적이었지만, 코틀린에서는 합법적임
+
+-> 왜냐하면 타입 시스템이 그것을 추적할 수 있도록 도와주기 때문에
+
+
+
 ## Functional Programming
 
 ### Lambdas
@@ -128,13 +144,13 @@ Lambda is an anonymous function that can be used as an expression.
 
 java에서는 익명 클래스가 동일한 목적을 위해서 사용 되었음
 
-java 8에서부터도 지원..  filter나 map등 가독성을 좋게 할 수 있음
+java 8에서부터도 지원..  filter나 map등 사용하여 가독성을 좋게 할 수 있음
 
 
 
 **Lambda syntax**
 
-`{ x: Int, y: Int -> x + y}` 코틀린에서 람다는 항상 중괄호 안에 있음 
+`{ x: Int, y: Int -> x + y }` 코틀린에서 람다는 항상 중괄호 안에 있음 
 
 첫째로 파라미터를 정의하고, `->` 에서 body를 정의 
 
@@ -158,9 +174,11 @@ java 8에서부터도 지원..  filter나 map등 가독성을 좋게 할 수 있
 
   `list.any { it > 0 }`
 
+
+
 **Destructuring declarations**
 
-아규 먼트가 map entry 또는 pair일 경우
+아규먼트가 map entry 또는 pair일 경우
 
 `map.mapValues { entry -> "${entry.key} -> ${entry.value}!" }`
 
@@ -191,7 +209,7 @@ java 8에서부터도 지원..  filter나 map등 가독성을 좋게 할 수 있
 
 - `find` : 조건을 만족하는 첫번째 원소 반환, 없으면 null
 
-- `fist` : find랑 동일, 만족하는 원소가 없으면 exception
+- `first` : find랑 동일, 만족하는 원소가 없으면 exception
 
 - `firstOrNull` : find랑 동일, 만족하는 원소가 없으면 null
 
@@ -214,7 +232,7 @@ java 8에서부터도 지원..  filter나 map등 가독성을 좋게 할 수 있
 
 - `zipWithNext`
 
-  ![image-20190930111635180](/Users/yein/Desktop/week3.png)
+  ![image-20190930111635180](./screenshot/week3_2.png)
 
 - `flatten` : 리스트들로 이루어진 리스트에서 호출, 모든 리스트들을 하나의 리스트로 만듦
 
@@ -236,7 +254,9 @@ java 8에서부터도 지원..  filter나 map등 가독성을 좋게 할 수 있
 
 ### Function Types
 
-코틀린에서는 람다를 변수에 저장할 수 있음 `val isEven = (Int) -> Boolean  = {}  `
+코틀린에서는 람다를 변수에 저장할 수 있음
+
+ `val isEven = (Int) -> Boolean = { i: Int -> i % 2 ==0 }  `
 
 람다를 직접 호출시에는 람다 바디 뒤에 `()`를 붙여야하는데, 이상하니까 `run` 을 이용해라
 
@@ -251,7 +271,7 @@ Java에서는 SAM 인터페이스 대신 람다를 넘길 수 있음
 
 
 
-Function types and nullability
+**Function types and nullability**
 
 ```kotlin
 () -> Int? // return 타입이 nullble이다.
@@ -273,7 +293,7 @@ Function types and nullability
 
 문법은 자바와 동일하게 `Class::member`
 
-람다와 달리 함수는 변수에 어사인 할 수 없음
+람다와 달리 함수(fun)는 변수에 어사인 할 수 없음
 
 ```kotlin
 fun isEven(i: Int): Boolean = i % 2 == 0
@@ -306,11 +326,9 @@ list.filter(::isEven)
 
 코틀린에서는 바운더리 레퍼런스를 만들 수 있음
 
-non-bound ref : 특정한 인스턴스에 종속?(bound) 되어있지 않음
+**non-bound ref** : 특정한 인스턴스에 종속(bound) 되어있지 않음
 
-(예제에서) person class의 어떠한 오브젝트에서도 호출 가능함
-
-bound ref : 클래스의 특정 인스턴스에 attach되어있는 멤버 레퍼런스
+**bound ref** : 클래스의 특정 인스턴스에 attach되어있는 멤버 레퍼런스
 
 
 
@@ -329,8 +347,6 @@ class Person(val name: String, val age: Int) {
 val predicate = alice.getAgePredicate()
 ```
 
-
-
 https://typealias.com/concepts/function-reference/#bound-and-unbound-references
 
 정확하게 잘 이해가 안가서 해당 링크 읽어보기
@@ -344,15 +360,15 @@ Returning Kotlin always returns from a function marked with fun.
 ```kotlin
 fun duplicateNonZero(list: List<Int>): List<Int> {
   return list.flatMap {
-    if (it == 0) return listOf() // 리스트에 0이 있기만 하면 항상 빈 list가 리턴
-    listOf(it, it) // 여기서 무슨짓을 해도 return되지 않고
+    if (it == 0) return listOf() // 리스트에 0이 있기만 하면 항상 빈 list가 return
+    listOf(it, it) // 여기서 무슨짓을 해도 return되지 않고, outer에서 return
   }
 }
 ```
 
 이렇게 구현되어있는 이유
 
-왜 코틀린의 return이 outer 함수에서 return될까(why kotlin return returns from the outer function)
+왜 코틀린의 return은 outer 함수에서 return될까
 
 ```kotlin
 // 다음과 같은 함수를 생각
@@ -363,6 +379,7 @@ fun containsZero(list: List<Int>): Boolean {
   }
   // 만약 이 list for loop을 foreach로 바꿀 경우
   // 이 return이 위의 return과 동일하게 동작할 것 이라는걸 예상할 수 없음
+  // forEach는 람다여서
   list.forEach {
     if (i == 0) return true
   }
@@ -370,7 +387,7 @@ fun containsZero(list: List<Int>): Boolean {
 }
 ```
 
--> 그래서 왜 저렇게 쓴다는건지 잘 모르겠다..
+
 
 그렇다면 람다에서 return 하고 싶은 경우에는 어떻게 해야할까?
 
@@ -416,3 +433,252 @@ list.flatMap anyLableName@{
     })
   }
   ```
+
+
+
+### Nice String
+
+```kotlin
+package nicestring
+
+fun String.isNice(): Boolean {
+//    var count = 0
+//    if (!(this.contains("bu")
+//            || this.contains("ba")
+//            || this.contains("be")))
+//        count++
+//
+//    val condition2 = this.count {
+//        it == 'a' || it == 'e' || it == 'i' || it == 'o' || it == 'u'
+//    }
+//    if (condition2 >= 3)
+//        count++
+//
+//    var c = 0
+//    for (i in 0 until this.length - 1) {
+//        if (this[i] == this[i+1])
+//            c++
+//    }
+//    if (c >= 1)
+//        count++
+//    return count >= 2
+
+    //val noBadSubstring = !contains("ba") && !contains("be") && !contains("bu")
+    // setOf("ba", "be", "bu").all { !this.contains(it) }
+    val noBadSubstring = setOf("ba", "be", "bu").none { this.contains(it) }
+
+
+//    val hasThreeVowels = count {
+//        it == 'a' || it == 'e' || it == 'i' || it == 'o' || it == 'u'
+//    } >= 3
+    // setOf가 성능면에서 살짝 더 좋지만 문자가 5개이기때문에 크게 차이는 없음
+    //val hasThreeVowels = count { it in setOf('a', 'e', 'i', 'o', 'u') } >= 3
+    val hasThreeVowels = count { it in "aeiou" } >= 3
+
+//    var hasDouble = false
+//    if (length > 1) {
+//        var prevCh: Char? = null
+//        for (ch in this) {
+//            if (ch == prevCh)
+//                hasDouble = true
+//            prevCh = ch
+//        }
+//    }
+
+   // (0 until lastIndex).any { this[it] == this[it + 1] }
+    val hasDouble = zipWithNext().any { it.first == it.second }
+    // or use windowed
+    //windowed(2).any { it[0] == it[1] }
+
+//    var conditions = 0
+//    if (noBadSubstring) conditions++
+//    if (hasThreeVowels) conditions++
+//    if (hasDouble) conditions++
+//
+//    return conditions >= 2
+
+    return listOf(noBadSubstring, hasThreeVowels, hasDouble).count { it } >= 2
+}
+```
+
+
+
+### Taxi Park
+
+```kotlin
+package taxipark
+
+/*
+ * Task #1. Find all the drivers who performed no trips.
+ */
+fun TaxiPark.findFakeDrivers(): Set<Driver> =
+        allDrivers - trips.groupBy { it.driver }.keys
+
+// 각각의 driver에 대해 none을 호출
+fun TaxiPark.findFakeDrivers2(): Set<Driver> =
+        allDrivers.filter { driver -> trips.none { it.driver == driver } }.toSet()
+
+// map을 한번만 순회하기 때문에 좀더 효율적임
+fun TaxiPark.findFakeDrivers3(): Set<Driver> = allDrivers - trips.map { it.driver }
+// 워스트 케이스가 아니라면 2,3 모두 크게 차이는 없음
+
+/*
+ * Task #2. Find all the clients who completed at least the given number of trips.
+ */
+fun TaxiPark.findFaithfulPassengers(minTrips: Int): Set<Passenger> =
+        allPassengers.filter { passenger ->
+            trips.count { passenger in it.passengers } >= minTrips
+        }.toSet()
+
+fun TaxiPark.findFaithfulPassengers2(minTrips: Int): Set<Passenger> =
+        trips.flatMap { it.passengers }
+                .groupBy { it }.filter { it.value.size >= minTrips }
+                .map { it.key }.toSet()
+
+fun TaxiPark.findFaithfulPassengers2_1(minTrips: Int): Set<Passenger> =
+        trips.flatMap(Trip::passengers) //  람다를 reference로 변환
+                .groupBy { passenger -> passenger } // 가독성을 높인다면 반복해도 상관 x
+                .filterValues { group -> group.size >= minTrips } //.filter { (_, group) -> group.size >= minTrips } // entry destruction 선언이 하나의 변수보다 나음
+                .keys // map{it.key}.toSet() 대신에 바로 keys로 접근 가능
+
+/*
+ * Task #3. Find all the passengers, who were taken by a given driver more than once.
+ */
+fun TaxiPark.findFrequentPassengers(driver: Driver): Set<Passenger> =
+        trips.filter { it.driver == driver }
+                .flatMap { it.passengers }
+                .groupBy { it }
+                .filter { it.value.size > 1 }
+                .keys
+
+fun TaxiPark.findFrequentPassengers2(driver: Driver): Set<Passenger> =
+        trips.filter { trip -> trip.driver == driver }
+                .flatMap(Trip::passengers)
+                .groupBy { passenger -> passenger }
+                .filterValues { group -> group.size > 1 }
+                .keys
+
+fun TaxiPark.findFrequentPassengers3(driver: Driver): Set<Passenger> =
+        allPassengers.filter { passenger ->
+            trips.count { it.driver == driver && passenger in it.passengers } > 1
+        }.toSet()
+
+/*
+ * Task #4. Find the passengers who had a discount for majority of their trips.
+ */
+fun TaxiPark.findSmartPassengers(): Set<Passenger> =
+        allPassengers.filter { passenger ->
+            trips.filter { passenger in it.passengers && it.discount != null }.size >
+                    trips.filter { passenger in it.passengers && it.discount == null }.size
+        }.toSet()
+
+fun TaxiPark.findSmartPassengers2(): Set<Passenger> {
+    // destructive 선언이 낫다.
+    //val pair = trips.partition { it.discount is Double }
+    val (tripsWithDiscount, tripsWithoutDiscount)
+            = trips.partition { it.discount != null }
+
+    // and use in instead of contains (same same)
+    return allPassengers.filter { passenger ->
+        tripsWithDiscount.count { passenger in it.passengers } > tripsWithoutDiscount.count { passenger in it.passengers }
+    }.toSet()
+}
+
+fun TaxiPark.findSmartPassengers2_1(): Set<Passenger> =
+        allPassengers.associateBy( // groupby 대신, key가 유니크 하다면
+                { it },
+                { p -> trips.filter { t -> p in t.passengers } }
+        ).entries.filter {
+            val group = it.value
+            val (with, without) = group.partition { it.discount != null }
+            with.size > without.size
+        }.map { it.key }.toSet()
+
+fun TaxiPark.findSmartPassengers2_2(): Set<Passenger> =
+        allPassengers.associate { p ->
+            // associateBy 대신 람다 하나 인자로 받는 associate
+            p to trips.filter { t -> p in t.passengers }
+        }.filterValues { group ->
+            val (with, without) = group.partition { it.discount != null }
+            with.size > without.size
+        }.keys
+
+fun TaxiPark.findSmartPassengers3(): Set<Passenger> =
+        allPassengers.filter { p ->
+            val withDiscount = trips.count { t -> p in t.passengers && t.discount != null }
+            val withoutDiscount = trips.count { t -> p in t.passengers && t.discount == null }
+            withDiscount > withDiscount
+        }.toSet()
+
+/*
+ * Task #5. Find the most frequent trip duration among minute periods 0..9, 10..19, 20..29, and so on.
+ * Return any period if many are the most frequent, return `null` if there're no trips.
+ */
+fun TaxiPark.findTheMostFrequentTripDurationPeriod(): IntRange? {
+    if (!trips.isNullOrEmpty()) {
+        val maxTime = trips.groupBy { it.duration / 10 }.maxBy { it.value.size }!!.value[0].duration
+        val end = maxTime - maxTime.rem(10) + 10
+        return (maxTime - maxTime.rem(10)) until end
+    }
+    return null
+}
+
+fun TaxiPark.findTheMostFrequentTripDurationPeriod2(): IntRange? {
+    return trips.groupBy { it.duration / 10 * 10..it.duration / 10 * 10 + 9 }
+            .toList()
+            .sortedByDescending { it -> it.second.size }
+            .firstOrNull()
+            ?.first
+}
+
+fun TaxiPark.findTheMostFrequentTripDurationPeriod2_1(): IntRange? {
+    return trips
+            .groupBy {
+                val start = it.duration / 10 * 10
+                val end = start + 9
+                start..end
+            }
+            .maxBy { (_, group) -> group.size }
+            ?.key
+}
+
+/*
+ * Task #6.
+ * Check whether 20% of the drivers contribute 80% of the income.
+ */
+fun TaxiPark.checkParetoPrinciple(): Boolean {
+    if (trips.isNullOrEmpty()) return false
+    val group = trips.groupBy { it.driver }.mapValues { it.value.sumByDouble { trip -> trip.cost } }
+    val totalIncome = group.values.sum()
+    val sorted = group.toList().sortedByDescending { it.second }.toMap()
+
+    var driverNum = 0
+    var sum = 0.0
+    for (value in sorted.values) {
+        driverNum++
+        sum += value
+        if (sum >= (totalIncome * 0.8)) break
+    }
+
+    return driverNum <= (allDrivers.size * 0.2)
+}
+
+fun TaxiPark.checkParetoPrinciple2(): Boolean {
+    if (trips.isEmpty()) return false
+
+    val totalIncome = trips.sumByDouble(Trip::cost) // property ref
+    val sortedDriversIncome: List<Double> = trips
+            .groupBy(Trip::driver)
+            .map { (_, tripsByDriver) -> tripsByDriver.sumByDouble(Trip::cost) }
+            .sortedDescending()
+
+    val numberOfTopDrivers = (0.2 * allDrivers.size).toInt()
+    val incomeByTopDrivers = sortedDriversIncome
+            .take(numberOfTopDrivers)
+            .sum()
+
+    return incomeByTopDrivers >= 0.8 * totalIncome
+}
+
+```
+

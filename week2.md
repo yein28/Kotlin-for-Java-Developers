@@ -1,10 +1,10 @@
-# Week 2
+# Week 2 Starting up with Kotlin
 
 ## Basics
 
 ### Hello, world 
 
-top-level functions** 
+**top-level functions** 
 
 - 함수를 최상위 레벨에 선언할 수 있음
 - 모든것을 클래스 내에 넣을 필요가 없음
@@ -16,13 +16,13 @@ top-level functions**
 
 **if expression**
 
-- 코틀린에서 if는 표현식
-- if의 결과를 변수에 지정하거나 함수에서 반환 가능
-- `val name = if (args.size>0) args[0] else "Kotlin"`
+- 코틀린에서 `if`는 표현식
+- `if`의 결과를 변수에 지정하거나 함수에서 반환 가능
+- `val name = if (args.size > 0) args[0] else "Kotlin"`
 
 **string templates**
 
-- ${functionCall(...)}
+- `${functionCall(...)}`
 
     ```kotlin
     fun main(args: Array<String>) {
@@ -30,7 +30,7 @@ top-level functions**
     }
     ```
 
-    null이 들어갈경우 Hello, null!이 출력됨
+    `null`이 들어갈경우 `Hello, null!`이 출력됨
 
 - kotlin의 String은 `java.lang.String`
 
@@ -46,7 +46,7 @@ top-level functions**
 
 **val** 
 
-- value, read Only,  can't be reassigned
+- value, read only,  can't be reassigned
 - Java의 final 키워드
 
 **var** 
@@ -54,19 +54,11 @@ top-level functions**
 - variable, mutable
   
 
-코틀린은 정적 타입 언어
+코틀린은 **정적 타입 언어**
 
 - 모든 변수, 표현식은 타입을 가짐
 - type이 없거나 unknown이라는 의미가 아님
 - context에서 타입이 명확하다면 컴파일러가 추론하는 타입을 신뢰할 수 있음
-
-잘 이해안되는 질문
-
-Q. Is it possible to modify an object stored in val?
-
-할당된 객체 자체를 바꿀수는 없지만 객체의 내용은 수정가능하다는  뜻..?
-
-> As in Java.l 'val', likea `final` variable, is animmutavbe reference which doesn't say anything about the content that is stored, val doesn't give you any guarantees about the content stored  in  an object.
 
 
 
@@ -83,7 +75,7 @@ readOnlyList.add("Kotlin") // error
 
 새로운 변수를 선언할때에는 `val` 키워드를 쓰도록 노력
 
-사이드 이펙트 없이 immutable references, immutable objects and functions를 사용하세요.
+사이드 이펙트 없이 immutable references, immutable objects and functions를 사용
 
 
 
@@ -142,7 +134,7 @@ A. 파일 이름과 상응하는 클래스의 static 함수로써  호출 가능
 
 ### Named & default  arguments
 
-Functions: default values
+**Functions: default values**
 
 ```kotlin
 fun display(character: Char = '*', size: Int = 10)  {
@@ -158,7 +150,7 @@ fun display(character: Char = '*', size: Int = 10)  {
 
 named argument를 사용한다면 파라미터의 순서는 상관 없음
 
-Q. 만약 자바에서 디폴트 인자가 있는 코틀린 함수를  호출하는 경우에는 어떻게 될까
+Q. 만약 자바에서 디폴트 인자가 있는 코틀린 함수를  호출하는 경우에는 어떻게 될까?
 
 A. 모든 파라미터에 대한 값을 지정해야함
 
@@ -176,7 +168,7 @@ A. 모든 파라미터에 대한 값을 지정해야함
 
 **if**
 
-- kotlin에서 if는 표현식
+- kotlin에서 `if`는 표현식
     - `val max= if (a > b) a else b`
     - 변수에 할당 할 수 있는 값을 반환함을 의미
     
@@ -206,7 +198,7 @@ A. 모든 파라미터에 대한 값을 지정해야함
       // color의 순서는 무시하기위해 set 사용
       setOf(RED, YELLOW) -> ORANGE
       setOf(YELLOW, BLUE) -> GREEN
-      else -> thorw Exception("Dirty color")
+      else -> throw Exception("Dirty color")
     }
     ```
 
@@ -228,8 +220,10 @@ A. 모든 파라미터에 대한 값을 지정해야함
 
     pet 키워드는 when 절 안에서만 보임 
 
-- when without argument, boolean 표현식을 branch condition 으로 사용 
+- when without argument 
 
+    boolean 표현식을 branch condition 으로 사용 
+    
     ```kotlin
     fun upedateWheather(degress: Int) {
     	val (description, color) = when {
@@ -262,15 +256,21 @@ java에는 없는 유용한 기능
 
 `in`으로 바운즈 체크 
 
-`fun isLetter(c: Char) = c in 'a'..'z' || c in 'A'..'Z'`
+```kotlin
+// 'in'으로 바운즈 체크
+// 'a' <= c && c <= 'z'
+fun isLetter(c: Char) = c in 'a'..'z' || c in 'A'..'Z'
+```
 
-→  `'a' <= c && c <= 'z'`
+범위에 없음 -> `!in` 
 
-`!in`도 가능 -> not in the range
+
 
 `val charRange: CharRange = 'a'..'z'`
 
 `val stringRange: ClosedRange<String> = "ab".."az"`
+
+
 
 Q. println("Kotlin" in "Java" .. "Scala")
 
@@ -278,11 +278,11 @@ A. true
 
 in 검사는 단순히 바운즈를 검사하는 코드로 변환됨
 
-즉 "ball " in "a".."k"는 "a" ≤  "ball" && "ball" ≤ "k"로 변환 
+즉 `"ball " in "a".."k"`는 `"a" ≤  "ball" && "ball" ≤ "k"`로 변환 
 
 그리고 내부에서는 자바처럼 string을 비교하는 함수가 호출됨
 
-"a".compareTo("ball") ≤ 0 && "ball".comareTo("k") ≤ 0
+`"a".compareTo("ball") ≤ 0 && "ball".comareTo("k") ≤ 0`
 
 문자열은 기본적으로 사전 식으로,  알파벳 순서로 비교 됨
 
@@ -290,7 +290,7 @@ in 검사는 단순히 바운즈를 검사하는 코드로 변환됨
 
 ### Exceptions
 
-중요한 차이점 : No difference between checked and unchecked exceptions
+중요한 차이점 : **No difference between checked and unchecked exceptions**
 
 ```kotlin
 val number = try {
@@ -300,11 +300,11 @@ val number = try {
 }
 ```
 
-thorw 와 try 는 kotlin에서는 expression
+`throw` 와 `try` 는 kotlin에서는 expression
 
 kotlin에는 checked exception이 없기 때문에 특정한 함수가 어떠한 예외를 발생시킨다는 것을 명시할 필요가 없음
 
-하지만 `throws annotation`으로 표현가능 
+하지만 `Throws annotation`으로 표현가능 
 
 → 필요없다더니 이러한 어노테이션은 왜 만들었을까 ?
 
@@ -336,11 +336,11 @@ try {
 
 - `val c: Char = "abc".lastChar()`
 
-  위 예제에서 String은 lastChar()함수의 리시버, this 레퍼런스를 통해서 리시버에 접근할 수 있으며 this도 생략 가능 
+  위 예제에서 String은 `lastChar()`함수의 리시버, `this` 레퍼런스를 통해서 리시버에 접근할 수 있으며 `this`도 생략 가능 
 
 - 중요한 점은 확장함수를 아무데서나 선언하고 사용할 수는 없다는 것 
 
-  사용시에는 명시적으로 임포트해야함
+  사용시에는 **명시적으로 임포트**해야 함
 
   
 
@@ -396,30 +396,54 @@ println(set.javaClass) // class java.util.HashSet
 
 **conversion to numbers**
 
-`"123".toInt()` // 123
-
-`"xx".toInt()` // Number Format Exception
-
-`"xx".toIntOfNull` // null
+```kotlin
+"123".toInt() // 123
+"xx".toInt() // Number Format Exception
+"xx".toIntOrNull // null
+```
 
 
 
 ### Calling Extensions
 
-어떻게 extensions가 상속과 상호 작용하는 방법 및 extensions가 멤버를 숨길 수 잇는지에 대해 
+extensions가 상속과 상호 작용하는 방법 및 어떻게 extensions가 멤버를 숨길 수 있는지에 대해 
 
-Extensions are static Java functions under the hood
+**Calling extentions**
 
-→ No override for extension functions in  Kotlin
+Extensions are **static** Java functions under the hood
 
-왜냐하면 컴파일러가 호출될  올바른 함수를 선택할때, 수신자의 표현식의 타입만을 사용하지 실제로  저장된 값을 보지 않으므로  
+→ **No override** for extension functions in  Kotlin
+
+왜냐하면 컴파일러가 호출될 함수를 선택할때, 수신자의 표현식의 타입만을 사용하지 실제로  저장된 값을 보지 않으므로  
+
+
+
+**Member vs extension** 
 
 Q. 만약 멤버와 중복되는 extension을 정의하면 어떻게되는지(오버라이드)
 
 A. 만약 시그니처가 동일하다면 무시되고 항상 멤버가 이김, but 오버로딩은 가능
+
+​	`Extension is shadowed by a member`  워닝을 보게 될 것 
 
 > If you try to define extension with the same signature as a member, then you get a warning that an extension is shadowed, so the member will always be chosen instead.
 
 
 
 ### Importance of extensions
+
+Q. Extensions가 중요한 이유는?
+
+A. 주 목적은 클래스, 인터페이스, API들을 간결하게 유지하는 것(keep minimal)
+
+> This is really important because this keeps the abstractions or things you'd try to describe to module with your class interfaces understandable. 
+>
+> So, it's important to capture the essence of the abstraction with this small set of members that covers the essential functionality.
+
+ 
+
+extension들을 그룹화 하는 것은 중요함
+
+라이브러리나 특정 클래스를 확장할때, 논리적으로 연결된 모든 확장들을 동일한 파일에 넣고 쉽게 찾을 수 있도록
+
+> So, it's important again to group extensions together. When you extend some library or some particular class, just put all the logically connected extensions into the same file so that they're easily discoverable, and otherwise, you just have a nicer API basically for free.
