@@ -295,7 +295,7 @@ in 검사는 단순히 바운즈를 검사하는 코드로 변환됨
 ```kotlin
 val number = try {
 	Integer.parseInt(string)
-} catch (e: NumberFormatException) }
+} catch (e: NumberFormatException) {
 	return
 }
 ```
@@ -315,10 +315,11 @@ fun foo { throw IOException() } // kt
 fun bar { throw IOException() } // kt
 
 try {
-	DemoKt.foo(); // call kotlin function
+	DemoKt.foo(); // !! compile error !!
 	DemoKt.bar(); // OK
 } catch (IOException e) {
-	// error, try 블럭에서 IOException은 절대 오지 않으므로(never thrown)
+	// foo() 함수의 경우 컴파일 에러, never thrown in the corresponding try block
+  // try 블럭에서 IOException은 절대 오지 않으므로
 }
 ```
 

@@ -158,7 +158,7 @@ java 8에서부터도 지원..  filter나 map등 사용하여 가독성을 좋�
 
 - `list.any({ i:Int -> i > 0})` 괄호 안에도 full syntax
 
-- but 마지막 아규먼트가 람다인 경우에는 괄호 밖으로 람다를 뺄 수 있음
+- 마지막 아규먼트가 람다인 경우에는 괄호 밖으로 람다를 뺄 수 있음
 
   `list.any() { i:Int -> i >0 }`
 
@@ -256,7 +256,23 @@ java 8에서부터도 지원..  filter나 map등 사용하여 가독성을 좋�
 
 코틀린에서는 람다를 변수에 저장할 수 있음
 
- `val isEven = (Int) -> Boolean = { i: Int -> i % 2 ==0 }  `
+ex) `val sum = { x: Int, y: Int -> x + y }`
+
+이때 sum 의 타입은 뭘까? 명시적으로 지정하자면 다음과 같다
+
+`val sum: (Int, Int) -> Int = { x, y -> x + y }`
+
+파라미터의 타입이 () 안에 작성되고, 리턴타입이 -> 다음에 작성됨 
+
+ `val isEven: (Int) -> Boolean = { i: Int -> i % 2 ==0 }  `
+
+
+
+람다 호출을 미루어야하는 경우 유용함
+
+변수에 저장해두었다가 함수의 argument
+
+
 
 람다를 직접 호출시에는 람다 바디 뒤에 `()`를 붙여야하는데, 이상하니까 `run` 을 이용해라
 
@@ -324,32 +340,50 @@ list.filter(::isEven)
 
 **Bound & non-bound refrences**
 
-코틀린에서는 바운더리 레퍼런스를 만들 수 있음
+코틀린에서는 bound 레퍼런스를 만들 수 있음
 
 **non-bound ref** : 특정한 인스턴스에 종속(bound) 되어있지 않음
 
-**bound ref** : 클래스의 특정 인스턴스에 attach되어있는 멤버 레퍼런스
+```kotlin
+class Person(val name: String, val age: Int) {
+	fun isOlder(ageLimit: Int) = age > ageLimit
+}
+
+// Person::isOlder는 regula non-bound ref
+val agePredicate: (Person, Int) -> Boolean = Person::isOlder
+		// 이 람다는 person과 ageLimit을 두가지 argument로 취함
+		// 단순히 person의 멤버 함수를 호출	
+		= { person, ageLimit -> person.isOlder(ageLimit) }
+val agePredicate = Person::isOlder
+
+val alice = Person("Alice", 29)
+agePredicate(alice, 21) // true
+```
+
+**bound ref** : 클래스의 특정 인스턴스에 attach되어있는 레퍼런스
+
+```kotlin
+val alice = Person("Alice", 29)
+// 위와는 다르게 person parmeter가 없는데, 이미 세팅되어있기 때문에 
+val agePredicate: (Int) -> Booleadn = alice::isOlder
+	// 실제 람다의 구현도 다음과 같이 bound된 인스턴스의 멤버 함수를 호출하게됨
+	= { ageLimit -> alice.isOlder(ageLimit) }
+val agePredicate = alice:isOlder // alice라는 특정 인스턴스에 attach
+agePredicate(21)
+```
 
 
 
-member 레퍼런스도 this ref에 bound될 수 있음
+member refrence는 **this**에 bound될 수 있음
 
 ```kotlin
 class Person(val name: String, val age: Int) {
   fun isOlder(ageLimit: Int) = age > ageLimit
-  // preson 클래스에서 predicate를 바로 반환
-  // 이 predicate는 isOlder 함수의 member ref
-  // 이때 this는 which this member reference is bound to, and is usual for these we can emit it. 
-  fun getAgePredicate() = this::isOlder // this는 생략 가능 -> ::isOlder
+  fun getAgePredicate() = this::isOlder // usual omit this 
+  // this::isOlder의 타입은 (Int) -> Boolean 
 }
-// getAgePredicate() 함수는 특정 인스턴스(member ref에 바운딩된 객체)에서만 호출할 수 있음
-// alice is Person instance
-val predicate = alice.getAgePredicate()
+
 ```
-
-https://typealias.com/concepts/function-reference/#bound-and-unbound-references
-
-정확하게 잘 이해가 안가서 해당 링크 읽어보기
 
 
 

@@ -212,7 +212,7 @@ print(sb) // Kotlin!
 
 **Lazy property**
 
-- value are coputed onlay on the first success
+- value are computed only on the first success
 - won't do anything unless the result is really needed
 - `lazy` 키워드 사용, 람다를 인자로 받는 함수 
 - 제일 처음 접근시에만 계산되고 저장, 이후에는 저장된 값이 리턴됨
@@ -221,7 +221,7 @@ print(sb) // Kotlin!
 
 **lateinit**
 
-- unit test의 activity initializing이나 dependency ingection에서 유용
+- unit test의 activity initializing이나 dependency injection에서 유용
 - 때때로 생성자 외에서 프로퍼티를 초기화 하고 싶을 수 있음
 
 ```kotlin
@@ -420,7 +420,7 @@ class C : A by b
 
 
 
-`by` means by delagating to the following instance
+`by` means by delegating to the following instance
 
 
 
@@ -512,17 +512,21 @@ Java에서는 static member로 호출 할 수 없음
 
 ### Constants
 
-string이나 primitive type의 constant를 정의할 때에는 `const` modifier 이용
+-  const
 
--> 컴파일 타임 상수로 만들어짐, 컴파일 시간에 실제 값으로 대치 됨 
+  string이나 primitive type의 constant를 정의할 때에는 `const` modifier 이용
 
+  -> 컴파일 타임에 실제 값으로 대치 됨 
 
+- @JvmField (for reference type)
 
-reference type을 위해 몇가지 이유때문에 getter를 만들고 싶지 않을 경우에는
+  accessors 제거, 컴파일러에게 field만 만들게 함
 
--> `@JvmField` 어노테이션 적용, 컴파일러에게 field만 만들게함
+  reference type을 위해 몇가지 이유때문에 getter를 만들고 싶지 않을 경우에는	
 
--> getter가 없고, property가 mutable이라면 setter도 없음
+  -> `@JvmField` 어노테이션 적용, 컴파일러에게 field만 만들게함
+
+  -> read only 인경우(val) getter가 없고, property가 mutable이라면 setter도 없음
 
 
 
@@ -532,10 +536,12 @@ reference type을 위해 몇가지 이유때문에 getter를 만들고 싶지 �
 
 top-level 또는 object class안에서는 property를 static으로 만들어줌
 
+regular class에서는 regular field가 생성
+
 ```kotlin
 object A {
   @JvmField
-  val prop = MyClass() // static fidle가 생성됨
+  val prop = MyClass() // static field가 생성됨
 }
 
 class B {
